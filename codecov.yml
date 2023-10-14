@@ -1,0 +1,16 @@
+github_checks:
+  annotations: false
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_base: false
+  require_head: false
+  require_changes: false
+  branches:
+    - "main"
+
+coverage:
+  range: 80..100
+  round: down
+  precision: 2

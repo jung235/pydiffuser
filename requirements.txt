@@ -1,0 +1,13 @@
+# dev
+black==23.3.0
+ruff==0.0.285
+mypy==1.4.1
+pre-commit>=2.21.0
+mkdocs-material>=9.2.3
+pytest-cov>=4.1.0
+codecov>=2.1.13
+hatch>=1.7.0
+flit>=3.9.0
+# src
+jax>=0.4.18
+jaxlib>=0.4.18

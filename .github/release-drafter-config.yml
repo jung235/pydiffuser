@@ -1,0 +1,8 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE @$AUTHOR in #$NUMBER'
+change-title-escapes: '\<*_&'
+template: |
+  ## Changes
+
+  $CHANGES
