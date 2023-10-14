@@ -6,9 +6,9 @@
 [![pypi](https://img.shields.io/badge/pypi-v0.0.1-blue)](https://pypi.org/)
 [![python](https://img.shields.io/badge/python-3.10_|_3.11_|_3.12-blue)](https://pypi.org/)
 [![doi](https://img.shields.io/badge/DOI--blue)](https://zenodo.org/)
-[![codecov](https://codecov.io/gh/jung235/pydiffuser/graph/badge.svg?token=XXXXXXXXXX)](https://codecov.io/gh/jung235/pydiffuser)
-[![ci](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml/badge.svg)](https://github.com/jung235/pydiffuser)
-[![docs](https://img.shields.io/badge/docs-dev-black)](https://github.com/jung235/pydiffuser)
+[![codecov](https://codecov.io/gh/jung235/pydiffuser/graph/badge.svg?token=UAT5VEBK0O)](https://codecov.io/gh/jung235/pydiffuser)
+[![ci](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml/badge.svg)](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml)
+[![docs](https://img.shields.io/badge/docs-dev-black)](https://github.com/jung235/pydiffuser/blob/main/README.md)
 [![status](https://img.shields.io/badge/status-alpha-blueviolet)](https://github.com/jung235/pydiffuser)
 
 Pydiffuser is a numerical simulation framework for nonequilibrium statistical physics based on [JAX](https://github.com/google/jax).
@@ -74,7 +74,7 @@ eatamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=True)
 You can visualize the results using [matplotlib](https://github.com/matplotlib/matplotlib).
 
 <p align="center" width="100%">
-    <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/ee9d4442-edb2-4c24-8c1b-614a8e385cd4>
+    <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/c9079ec6-3bf3-496b-a03b-d6f7e5ceff7f>
 </p>
 
 The trajectory is obtained by `matplotlib.pyplot.plot(tracer.position_x1, tracer.position_x2)`.
@@ -147,7 +147,7 @@ ensemble.to_npy(npy_path=<NPY_PATH>)  # [4]
 After calculating the stochastic [observables](#observables), you can plot:
 
 <p align="center" width="100%">
-    <img width="30%" src=https://github.com/jung235/pydiffuser/assets/96967431/e92010cf-201d-4920-b508-fc1432544b77>
+    <img width="30%" src=https://github.com/jung235/pydiffuser/assets/96967431/0da99349-ad96-4735-bcd5-6223a586ae34>
 </p>
 
 It is possible to save & load a picklable object through `pydiffuser.save` and `pydiffuser.load`.
