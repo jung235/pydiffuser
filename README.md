@@ -3,8 +3,8 @@
     <h1 align="center">Pydiffuser</h1>
 </p>
 
-[![pypi](https://img.shields.io/badge/pypi-v0.0.1-blue)](https://pypi.org/)
-[![python](https://img.shields.io/badge/python-3.10_|_3.11_|_3.12-blue)](https://pypi.org/)
+[![pypi](https://img.shields.io/badge/pypi-v0.0.1-blue)](https://pypi.org/project/pydiffuser/)
+[![python](https://img.shields.io/badge/python-3.10_|_3.11_|_3.12-blue)](https://pypi.org/project/pydiffuser/)
 [![doi](https://img.shields.io/badge/DOI--blue)](https://zenodo.org/)
 [![codecov](https://codecov.io/gh/jung235/pydiffuser/graph/badge.svg?token=UAT5VEBK0O)](https://codecov.io/gh/jung235/pydiffuser)
 [![ci](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml/badge.svg)](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml)
@@ -25,7 +25,7 @@ Pydiffuser is a numerical simulation framework for nonequilibrium statistical ph
 
 Python 3.10+, [`jax>=0.4.18`](https://pypi.org/project/jax/), and [`jaxlib>=0.4.18`](https://pypi.org/project/jaxlib/).
 
-### From [PyPI](https://pypi.org)
+### From [PyPI](https://pypi.org/project/pydiffuser/)
 
 ```console
 $ pip install pydiffuser

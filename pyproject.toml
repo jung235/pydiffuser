@@ -2,7 +2,7 @@
 name = "pydiffuser"
 description = "A simulation framework for nonequilibrium statistical physics"
 readme = "README.md"
-license = "Apache License 2.0"
+license = {file="LICENSE"}
 authors = [{name = "Yurim Jung"}, {email = "jung65537@gmail.com"}]
 keywords = [
   "nonequilibrium statistical physics", 
