@@ -38,14 +38,6 @@ $ pydiffuser --version
 pydiffuser, version 0.0.1
 ```
 
-### From source
-
-```console
-$ git clone https://github.com/jung235/pydiffuser.git
-$ cd pydiffuser
-$ pip install .
-```
-
 ## Quickstart
 
 Pydiffuser provides various stochastic models that implement a numerical simulation based on the [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method).
@@ -63,7 +55,6 @@ tracer: Trajectory = ensemble[0]  # 0th particle
 ```
 
 Relevant stochastic observables, such as [mean-squared displacement](https://en.wikipedia.org/wiki/Mean_squared_displacement) $\left \langle \mathbf{r}^{2}(t) \right \rangle$ and normalized [velocity autocorrelation function](https://en.wikipedia.org/wiki/Autocorrelation), can be calculated through the [methods](#observables) of `Trajectory` and `Ensemble`.
-For example:
 
 ```python
 tamsd = tracer.get_mean_squared_displacement(lagtime=1, rolling=True)
@@ -71,13 +62,13 @@ eamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=False)
 eatamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=True)
 ```
 
-You can visualize the results using [matplotlib](https://github.com/matplotlib/matplotlib).
+You can visualize the trajectory using [matplotlib](https://github.com/matplotlib/matplotlib).
 
 <p align="center" width="100%">
     <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/c9079ec6-3bf3-496b-a03b-d6f7e5ceff7f>
 </p>
 
-The trajectory is obtained by `matplotlib.pyplot.plot(tracer.position_x1, tracer.position_x2)`.
+It is obtained by `matplotlib.pyplot.plot(tracer.position_x1, tracer.position_x2)`.
 
 ## CLI
 
@@ -93,8 +84,6 @@ levy            LevyWalk                        LevyWalkConfig                  
 rtp             RunAndTumbleParticle            RunAndTumbleParticleConfig      1d, 2d, 3d      
 smoluchowski    SmoluchowskiEquation            SmoluchowskiEquationConfig      1d, 2d          
 ```
-
-Here, every model is the subclass of `pydiffuser.models.BaseDiffusion`, and every configuration is the subclass of `pydiffuser.utils.BaseDiffusionConfig`.
 
 ## Features
 
@@ -143,12 +132,6 @@ model = ActiveBrownianParticle.from_config(config=config)  # [2]
 ensemble = model.generate()  # [3]
 ensemble.to_npy(npy_path=<NPY_PATH>)  # [4]
 ```
-
-After calculating the stochastic [observables](#observables), you can plot:
-
-<p align="center" width="100%">
-    <img width="30%" src=https://github.com/jung235/pydiffuser/assets/96967431/0da99349-ad96-4735-bcd5-6223a586ae34>
-</p>
 
 It is possible to save & load a picklable object through `pydiffuser.save` and `pydiffuser.load`.
 
