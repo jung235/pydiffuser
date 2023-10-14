@@ -1,0 +1,19 @@
+{
+    "model_alias": "abp",
+    "pydiffuser_version": "0.0.1",
+    "realization": 10,
+    "length": 1000,
+    "dimension": 2,
+    "dt": 1.0,
+    "potential": null,
+    "potential_params": null,
+    "external_force": 0.0,
+    "friction_coefficient": 1.0,
+    "diffusivity": 0.0,
+    "generate_hooks": [
+        "rotational_diffusion"
+    ],
+    "speed": 1.0,
+    "rotational_diffusivity": 0.1,
+    "angular_velocity": 0.0
+}

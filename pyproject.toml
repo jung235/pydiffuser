@@ -1,0 +1,88 @@
+[project]
+name = "pydiffuser"
+description = "A simulation framework for nonequilibrium statistical physics"
+readme = "README.md"
+license = "Apache License 2.0"
+authors = [{name = "Yurim Jung"}, {email = "jung65537@gmail.com"}]
+keywords = [
+  "nonequilibrium statistical physics", 
+  "langevin dynamics", 
+  "stochastic process", 
+  "computer simulation",
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dynamic = ["version"]
+dependencies = ["jax>=0.4.18", "jaxlib>=0.4.18"]
+
+[project.urls]
+Source = "https://github.com/jung235/pydiffuser"
+Homepage = "https://github.com/jung235"
+
+[build-system]
+requires = ["hatchling >= 1.13.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "pydiffuser/_version.py"
+
+[project.scripts]
+pydiffuser = "pydiffuser._cli.cli:cli"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+exclude = '''
+(
+  /(
+      \.git
+    | \.venv
+    | build
+    | dist
+  )/
+  |
+)
+'''
+
+[tool.mypy]
+strict = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = "pydiffuser._cli.cli"
+ignore_errors = true
+
+[tool.ruff]
+select = [
+    "E",  # pycodestyle
+    "F",  # Pyflakes
+    "W",  # pycodestyle warnings
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C",  # flake8-comprehensions
+    "SIM",  # flake8-simplify
+    "COM",  # flake8-commas
+]
+ignore = [
+    "E501",  # line length violations
+    "COM812",  # missing trailing comma
+]
+
+[tool.ruff.isort]
+known-first-party = ["pydiffuser"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]  # import violations
