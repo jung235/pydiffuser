@@ -1,5 +1,5 @@
 <p align="center">
-    <img src=docs/overrides/.icons/pydiffuser_logo_small.png width="30%">
+    <img src=https://github.com/jung235/pydiffuser/assets/96967431/a9f54ef6-d1d4-4fcf-88bf-8c336dd671c0 width="30%">
     <h1 align="center">Pydiffuser</h1>
 </p>
 
@@ -13,11 +13,11 @@
 
 Pydiffuser is a numerical simulation framework for nonequilibrium statistical physics based on [JAX](https://github.com/google/jax).
 
-**This package mainly aims:**
+This package mainly aims:
 - to share code to implement a numerical simulation on physical models written in various forms of [stochastic differential equations](https://en.wikipedia.org/wiki/Stochastic_differential_equation).
 - to revisit recent research highlights in non-equilibrium statistical physics.
 - to reduce the repeated code on time-series data analysis, e.g., statistical analysis of [single-particle trajectory](https://en.wikipedia.org/wiki/Single-particle_trajectory) for [SPT](https://en.wikipedia.org/wiki/Single-particle_tracking) experiments.
-- to provide the skeleton of stochastic model simulation for anyone interested in stochastic processes.
+- to provide the skeleton of stochastic modeling for anyone interested in stochastic processes.
 
 ## Installation
 
@@ -51,10 +51,10 @@ from pydiffuser.tracer import Ensemble, Trajectory
 
 model = BrownianMotion()
 ensemble: Ensemble = model.generate()
-tracer: Trajectory = ensemble[0]  # 0th particle
+tracer: Trajectory = ensemble[0]  # the 0th particle
 ```
 
-Relevant stochastic observables, such as [mean-squared displacement](https://en.wikipedia.org/wiki/Mean_squared_displacement) $\left \langle \mathbf{r}^{2}(t) \right \rangle$ and normalized [velocity autocorrelation function](https://en.wikipedia.org/wiki/Autocorrelation), can be calculated through the [methods](#observables) of `Trajectory` and `Ensemble`.
+Relevant stochastic observables, such as [mean-squared displacement](https://en.wikipedia.org/wiki/Mean_squared_displacement) and normalized [velocity autocorrelation function](https://en.wikipedia.org/wiki/Autocorrelation), can be calculated through the [methods](#observables) of `Trajectory` and `Ensemble`.
 
 ```python
 tamsd = tracer.get_mean_squared_displacement(lagtime=1, rolling=True)
@@ -62,7 +62,7 @@ eamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=False)
 eatamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=True)
 ```
 
-You can visualize the trajectory using [matplotlib](https://github.com/matplotlib/matplotlib).
+You can visualize the trajectory using [matplotlib](https://github.com/matplotlib/matplotlib):
 
 <p align="center" width="100%">
     <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/c9079ec6-3bf3-496b-a03b-d6f7e5ceff7f>
@@ -99,13 +99,13 @@ smoluchowski    SmoluchowskiEquation            SmoluchowskiEquationConfig      
 - `get_real_time`
 
 The above methods are defined in both `Trajectory` and `Ensemble` to enhance transparency.
-Using the methods of `Trajectory`, the statistical analysis of [single-particle trajectory](https://en.wikipedia.org/wiki/Single-particle_trajectory) can be accelerated.
+Using `Trajectory`, the statistical analysis of [single-particle trajectory](https://en.wikipedia.org/wiki/Single-particle_trajectory) can be accelerated.
 
 ### Configuration
 
-We introduce a configuration file to deal with extensive parameter manipulation.
+We introduce a configuration to deal with extensive parameter manipulation.
 For instance, see [`config.json`](https://github.com/jung235/pydiffuser/blob/main/docs/features/configs/config.json), which contains all parameters demanded to instantiate `pydiffuser.ActiveBrownianParticle`.
-Every JSON file of the configurations listed in [CLI](#cli) can be obtained as follows:
+Every JSON of the configurations listed in [CLI](#cli) can be obtained as follows:
 
 ```python
 import pydiffuser as pyd
@@ -116,7 +116,7 @@ config = ActiveBrownianParticleConfig()
 config.to_json(json_path=<JSON_PATH>)
 ```
 
-We suggest a research pipeline.
+We suggest a research pipeline:
 
 ```python
 ┌────┐     ┌─────────────────────┐     ┌───────────────┐     ┌──────────┐     ┌────────────┐
@@ -133,12 +133,13 @@ ensemble = model.generate()  # [3]
 ensemble.to_npy(npy_path=<NPY_PATH>)  # [4]
 ```
 
-It is possible to save & load a picklable object through `pydiffuser.save` and `pydiffuser.load`.
+You can save and load any picklable object through `pydiffuser.save` and `pydiffuser.load`.
 
 ```python
 MODEL_PATH = "model.pickle"
 
-pyd.save(obj=model, pickle_path=MODEL_PATH)  # <PICKLE_PATH> = MODEL_PATH
+
+pyd.save(obj=model, pickle_path=MODEL_PATH)  # Here, <PICKLE_PATH> = MODEL_PATH
 model = pyd.load(pickle_path=MODEL_PATH)
 ```
 
