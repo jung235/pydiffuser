@@ -1,6 +1,6 @@
 {
     "model_alias": "abp",
-    "pydiffuser_version": "0.0.1",
+    "pydiffuser_version": "0.0.2",
     "realization": 10,
     "length": 1000,
     "dimension": 2,
