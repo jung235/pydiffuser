@@ -35,7 +35,7 @@ If properly installed, you can run:
 
 ```console
 $ pydiffuser --version
-pydiffuser, version 0.0.1
+pydiffuser, version 0.0.2
 ```
 
 ## Quickstart
