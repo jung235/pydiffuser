@@ -3,9 +3,9 @@
     <h1 align="center">Pydiffuser</h1>
 </p>
 
-[![pypi](https://img.shields.io/badge/pypi-v0.0.1-blue)](https://pypi.org/project/pydiffuser/)
+[![pypi](https://img.shields.io/badge/pypi-v0.0.2-blue)](https://pypi.org/project/pydiffuser/)
 [![python](https://img.shields.io/badge/python-3.10_|_3.11_|_3.12-blue)](https://pypi.org/project/pydiffuser/)
-[![doi](https://img.shields.io/badge/DOI--blue)](https://zenodo.org/)
+[![doi](https://zenodo.org/badge/703392021.svg)](https://zenodo.org/doi/10.5281/zenodo.10017027)
 [![codecov](https://codecov.io/gh/jung235/pydiffuser/graph/badge.svg?token=UAT5VEBK0O)](https://codecov.io/gh/jung235/pydiffuser)
 [![ci](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml/badge.svg)](https://github.com/jung235/pydiffuser/actions/workflows/ci.yml)
 [![docs](https://img.shields.io/badge/docs-dev-black)](https://github.com/jung235/pydiffuser/blob/main/README.md)
@@ -154,4 +154,10 @@ model = pyd.load(pickle_path=MODEL_PATH)
 ## Citation
 
 ```bibtex
+@misc{jung2023pydiffuser,
+  title = {Pydiffuser: a simulation framework for nonequilibrium statistical physics},
+  author = {Jung, Yurim},
+  year = {2023},
+  note = {doi: 10.5281/zenodo.10017027},
+}
 ```
