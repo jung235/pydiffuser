@@ -15,7 +15,7 @@ def register(potential: Any) -> Any:
     def decorator() -> Any:
         if not isinstance(potential, PjitFunction):
             raise RuntimeError(
-                "Potential must be transformed via 'jax.jit' to register"
+                "Potential must be transformed via `jax.jit` to register"
             )
         FIELD_REGISTRY[f"{potential.__name__}"] = potential
         return potential

@@ -15,7 +15,7 @@ Pydiffuser is a numerical simulation framework for nonequilibrium statistical ph
 
 This package mainly aims:
 - to share code to implement a numerical simulation on physical models written in various forms of [stochastic differential equations](https://en.wikipedia.org/wiki/Stochastic_differential_equation).
-- to revisit recent research highlights in non-equilibrium statistical physics.
+- to revisit recent research highlights in nonequilibrium statistical physics.
 - to reduce the repeated code on time-series data analysis, e.g., statistical analysis of [single-particle trajectory](https://en.wikipedia.org/wiki/Single-particle_trajectory) for [SPT](https://en.wikipedia.org/wiki/Single-particle_tracking) experiments.
 - to provide the skeleton of stochastic modeling for anyone interested in stochastic processes.
 
@@ -75,7 +75,7 @@ It is obtained by `matplotlib.pyplot.plot(tracer.position_x1, tracer.position_x2
 List all stochastic models supported by Pydiffuser.
 
 ```console
-$ pydiffuser list
+$ pydiffuser model list
 NAME            MODEL                           CONFIG                          DIMENSION       
 abp             ActiveBrownianParticle          ActiveBrownianParticleConfig    2d              
 aoup            ActiveOUParticle                ActiveOUParticleConfig          1d, 2d, 3d      
