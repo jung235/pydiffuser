@@ -1,21 +1,15 @@
 import click
 
-from pydiffuser._cli.cli_utils import get_model_info
+from pydiffuser._cli.cli_utils import add_model_subcommands
 
 
 def create():
     @click.group()
     @click.version_option()
     def pydiffuser_cli():
-        """Pydiffuser CLI"""
+        """Pydiffuser CLI."""
 
-    @pydiffuser_cli.command()
-    def list():
-        """List all models defined in Pydiffuser."""
-
-        info = get_model_info()
-        for name, model, config, dimension in info:
-            click.echo(f"{name:16}{model:32}{config:32}{dimension:16}")
+    add_model_subcommands(pydiffuser_cli)
 
     return pydiffuser_cli
 
