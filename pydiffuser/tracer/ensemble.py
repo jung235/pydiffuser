@@ -175,6 +175,21 @@ class Ensemble(Component, OrderedDict):  # type: ignore[type-arg]
         m = _get_cosine_moment(self.microstate, lagtime, order, rolling, epsilon)
         return float(m)
 
+    @helpers.checktime()
+    def get_velocity_autocorrelation(
+        self, lagtime: int, rolling: bool = True, epsilon: int = 1
+    ) -> float:
+        if self.dimension != 2:
+            raise InvalidDimensionError(
+                f"Unsupported dimension {self.dimension} is encountered"
+            )
+        if self.length - lagtime - epsilon <= 0 or epsilon <= 0:
+            raise InvalidTimeError("Only positive integers are allowed for lagtime")
+        m = _get_velocity_autocorrelation(
+            self.microstate, lagtime, self.dt, rolling, epsilon
+        )
+        return float(m)
+
     def __reduce__(self) -> Tuple[Any, ...]:
         info = super().__reduce__()
         args = self.dt
@@ -245,3 +260,26 @@ def _get_cosine_moment(
     return jnp.mean(
         jnp.mean(jnp.cos(order * jnp.arccos(_fix(cos))), axis=-1)
     )  # TA -> EA
+
+
+@partial(jit, static_argnums=(1, 2, 3, 4))
+def _get_velocity_autocorrelation(
+    x: LongLongPosType,
+    lagtime: int,
+    dt: ConstType,
+    rolling: bool = True,
+    epsilon: int = 1,
+) -> Array:
+    x = jnp.asarray(x)
+    vel = jnp.roll(x, shift=-epsilon, axis=NDAXIS.L) - x
+    vel = vel[:, :-epsilon] / (epsilon * dt)
+    if not rolling:
+        dot = jnp.sum(vel[:, lagtime] * vel[:, 0], axis=-1)
+        return jnp.mean(dot)
+    mul = jnp.roll(vel, shift=-lagtime, axis=NDAXIS.L) * vel
+    dot = (
+        jnp.sum(mul, axis=NDAXIS.D)
+        if not lagtime
+        else jnp.sum(mul[:, :-lagtime], axis=NDAXIS.D)
+    )
+    return jnp.mean(jnp.mean(dot, axis=-1))  # TA -> EA
