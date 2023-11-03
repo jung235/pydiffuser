@@ -52,13 +52,13 @@ class Component(abc.ABC):
     ) -> float:
         raise NotImplementedError
 
-    @helpers.checktime()
+    @abc.abstractmethod
     def get_velocity_autocorrelation(
         self, lagtime: int, rolling: bool = True, epsilon: int = 1
     ) -> float:
-        """Normalized velocity autocorrelation function"""
+        """_summary_"""
 
-        return self.get_cosine_moment(lagtime, 1, rolling, epsilon)
+        raise NotImplementedError
 
     @helpers.checktime()
     def get_real_time(self, lagtime: int) -> float:
