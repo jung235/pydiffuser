@@ -65,7 +65,7 @@ eatamsd = ensemble.get_mean_squared_displacement(lagtime=1, rolling=True)
 You can visualize the trajectory using [matplotlib](https://github.com/matplotlib/matplotlib):
 
 <p align="center" width="100%">
-    <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/c9079ec6-3bf3-496b-a03b-d6f7e5ceff7f>
+    <img width="25%" src=https://github.com/jung235/pydiffuser/assets/96967431/544f3d2f-1b51-46f6-8036-ee7f296fddad>
 </p>
 
 It is obtained by `matplotlib.pyplot.plot(tracer.position_x1, tracer.position_x2)`.
@@ -86,6 +86,50 @@ smoluchowski    SmoluchowskiEquation            SmoluchowskiEquationConfig      
 ```
 
 ## Features
+
+### How fast is it?
+
+When generating $N$ realizations consisting of $L$ footprints, we have:
+
+```julia
+═════════════════════════════════════════════════════════════════════════════════════════════════
+Model               Method              Running time [s] for N x L =                             
+                                        10² x 10⁵          10³ x 10⁴          10⁴ x 10³          
+─────────────────────────────────────────────────────────────────────────────────────────────────
+`loop` [*]                              3.62 (0.19)        3.45 (0.23)        3.37 (0.21)        
+─────────────────────────────────────────────────────────────────────────────────────────────────
+`abp`               `generate`          1.95 (0.14)        1.74 (0.12)        1.59 (0.11)        
+`aoup`              `generate`          1.61 (0.08)        1.61 (0.15)        1.55 (0.09)        
+`bm`                `generate`          1.45 (0.11)        1.46 (0.13)        1.46 (0.14)        
+`smoluchowski`      `generate`          1.71 (0.12)        1.67 (0.15)        1.64 (0.13)        
+─────────────────────────────────────────────────────────────────────────────────────────────────
+`bm`                `create`            1440.72 (158.16)   964.90 (83.06)     1195.41 (94.28)    
+═════════════════════════════════════════════════════════════════════════════════════════════════
+```
+
+<details>
+<summary>[*]</summary>
+
+```python
+def loop(N: int, L: int) -> float:
+    """Even the most straightforward loop requires over 3 [s] for all (N, L) conditions.
+    """
+
+    t1 = time.time()
+
+    xes = []
+    for _ in range(N):
+        x = []
+        for _ in range(1, L):
+            x.append([])
+        xes.append(x)
+
+    t2 = time.time()
+    return t2 - t1
+```
+</details>
+
+The represented running time is a mean $\mu$ (standard deviation $\sigma$) of five trials.
 
 ### Observables
 
