@@ -12,6 +12,7 @@ def get_model_info():
         "levy": _,
         "rtp": _,
         "smoluchowski": "1d, 2d",
+        "vicsek": "2d",
     }
     info = [("NAME", "MODEL", "CONFIG", "DIMENSION")]
     info += [
