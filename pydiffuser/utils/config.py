@@ -49,9 +49,16 @@ class BaseDiffusionConfig(abc.ABC):
             json.dump(info, f, indent=4)
 
     def to_dataclass(self) -> object:
-        info = copy.deepcopy(vars(self))
+        info = self.to_dict()
         obj = make_dataclass(self.__class__.__name__, info.keys())
         return obj(**info)
 
+    def to_dict(self) -> Dict[str, Any]:
+        info = copy.deepcopy(vars(self))
+        return info
+
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(name={self.name})"
+
+    def __contains__(self, param: str) -> bool:
+        return param in self.to_dict()
