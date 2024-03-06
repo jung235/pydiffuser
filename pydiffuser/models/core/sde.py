@@ -73,9 +73,7 @@ class OverdampedLangevin(BaseDiffusion):
             raise KeyError(f"Unsupported potential {potential} is encountered")
         super(OverdampedLangevin, self).__init__()
 
-        self.potential = (
-            FIELD_REGISTRY[potential] if potential is not None else potential
-        )
+        self.potential = potential
         self.potential_params = potential_params
         self.external_force = external_force
         self.friction_coefficient = friction_coefficient
@@ -92,6 +90,8 @@ class OverdampedLangevin(BaseDiffusion):
     ) -> Ensemble:
         ens = super().generate(realization, length, dimension, dt, **generate_kwargs)
         realization, length, dimension, dt = list(self.generate_info.values())[:4]
+        if self.interacting:
+            raise RuntimeError("Interacting particles are not supported.")
 
         x = self._get_initial_position()  # realization x 1 x dimension
         dx = jnp.zeros((realization, (length - 1), dimension))  # init
@@ -99,10 +99,7 @@ class OverdampedLangevin(BaseDiffusion):
 
         if self.generate_hooks is not None:
             for hook in self.generate_hooks:
-                if self.interacting:
-                    pass  # TODO
-                else:
-                    out: Array = self._load_hook(hook)()
+                out: Array = self._load_hook(hook)()
                 if dx.shape == dx_shape:
                     dx += out
                 else:
@@ -157,7 +154,7 @@ class OverdampedLangevin(BaseDiffusion):
         return (
             r
             - coeff
-            * grad(self.potential)(r, **self.potential_params)
+            * grad(FIELD_REGISTRY[self.potential])(r, **self.potential_params)  # type: ignore[index]
             * self.generate_info["dt"]
             + remaining_terms  # constant with respect to `r`
         )
