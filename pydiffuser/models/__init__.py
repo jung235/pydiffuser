@@ -9,6 +9,7 @@ from .core.base import BaseDiffusion
 from .levy import LevyWalk, LevyWalkConfig
 from .rtp import RunAndTumbleParticle, RunAndTumbleParticleConfig
 from .smoluchowski import SmoluchowskiEquation, SmoluchowskiEquationConfig
+from .vicsek import VicsekModel, VicsekModelConfig
 
 __all__ = [
     "ActiveBrownianParticle",
@@ -23,6 +24,8 @@ __all__ = [
     "RunAndTumbleParticleConfig",
     "SmoluchowskiEquation",
     "SmoluchowskiEquationConfig",
+    "VicsekModel",
+    "VicsekModelConfig",
 ]
 
 

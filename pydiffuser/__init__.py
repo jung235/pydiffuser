@@ -12,6 +12,8 @@ from .models import (
     RunAndTumbleParticleConfig,
     SmoluchowskiEquation,
     SmoluchowskiEquationConfig,
+    VicsekModel,
+    VicsekModelConfig,
 )
 from .tracer import Ensemble, Trajectory
 from .utils import load, save
@@ -30,6 +32,8 @@ __all__ = [
     "RunAndTumbleParticleConfig",
     "SmoluchowskiEquation",
     "SmoluchowskiEquationConfig",
+    "VicsekModel",
+    "VicsekModelConfig",
     "Ensemble",
     "Trajectory",
     "load",
