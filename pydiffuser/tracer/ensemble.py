@@ -193,7 +193,7 @@ class Ensemble(Component, OrderedDict):  # type: ignore[type-arg]
     def __reduce__(self) -> Tuple[Any, ...]:
         info = super().__reduce__()
         args = self.dt
-        new_info = (self.__class__, args, *info[2:])
+        new_info = (self.__class__, (args,), *info[2:])
         return new_info
 
     def to_npy(self, npy_path: PathType) -> None:
