@@ -38,7 +38,7 @@ class BaseDiffusion(abc.ABC):
         if MODEL_KWARGS in params:
             params.pop()
         model = cls(*[getattr(config, param) for param in params[1:]])
-        model.config = config
+        model._inject_init_args(config)
         return model
 
     @property
@@ -70,7 +70,10 @@ class BaseDiffusion(abc.ABC):
                 f"Unsupported dimension {dimension} is encountered"
             )
         if self.interacting:
-            raise NotImplementedError("Interactive particles are unsupported")  # TODO
+            logger.debug(
+                f"Generating interacting particles from `{self.__class__.__name__}`. "
+                "The calculation will be significantly slower than with non-interacting particles."
+            )
         return
 
     @property
@@ -84,6 +87,13 @@ class BaseDiffusion(abc.ABC):
         except KeyError:
             pass
         return info
+
+    def _inject_init_args(self, config: BaseDiffusionConfig) -> None:
+        for param in vars(self):
+            if param in config:
+                setattr(self, param, getattr(config, param))
+        self.config = config
+        return
 
     def _stash_generate_args(self, *user_args) -> None:
         params = list(signature(self.generate).parameters.keys())
