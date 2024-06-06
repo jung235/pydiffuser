@@ -7,6 +7,7 @@ from .aoup import ActiveOUParticle, ActiveOUParticleConfig
 from .bm import BrownianMotion, BrownianMotionConfig
 from .core.base import BaseDiffusion
 from .levy import LevyWalk, LevyWalkConfig
+from .mips import PhaseSeparation, PhaseSeparationConfig
 from .rtp import RunAndTumbleParticle, RunAndTumbleParticleConfig
 from .smoluchowski import SmoluchowskiEquation, SmoluchowskiEquationConfig
 from .vicsek import VicsekModel, VicsekModelConfig
@@ -20,6 +21,8 @@ __all__ = [
     "BrownianMotionConfig",
     "LevyWalk",
     "LevyWalkConfig",
+    "PhaseSeparation",
+    "PhaseSeparationConfig",
     "RunAndTumbleParticle",
     "RunAndTumbleParticleConfig",
     "SmoluchowskiEquation",
