@@ -55,9 +55,11 @@ class ActiveBrownianParticle(OverdampedLangevin):
     ):
         """
         Consider an overdamped Langevin equation for orientation φ:
+        ```
             dφ        ___
             ── = ω + √2Dr η(t),
             dt
+        ```
         where ω is a constant angular velocity,
         Dr is a rotational diffusion coefficient,
         and η(t) denotes a Gaussian white noise with zero mean and unit variance.

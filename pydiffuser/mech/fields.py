@@ -80,7 +80,7 @@ def wca_potential(
         sigma (ConstType): σᵢⱼ.
         epsilon (ConstType, optional): ε.
         boxsize (ConstType | None, optional): Size of the unit cell.
-            If not None, periodic boundary conditions (PBCs) are enforced.
+            If not None, a periodic boundary condition (PBC) is enforced.
     """
 
     rij_vec = ri - rj

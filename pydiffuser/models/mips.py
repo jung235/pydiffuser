@@ -72,7 +72,7 @@ class PhaseSeparation(ActiveOUParticle):
         ```
         where rᵢⱼ = |rⱼ - rᵢ| is the magnitude of the relative position vector.
         Here, U is the purely repulsive WCA potential defined in `pydiffuser.mech.fields`.
-        For a detailed description of `pᵢ`, see `pydiffuser.models.aoup.ActiveOUParticle`.
+        For a detailed description of pᵢ, see `pydiffuser.models.aoup.ActiveOUParticle`.
 
         Args:
             boxsize (float): L.

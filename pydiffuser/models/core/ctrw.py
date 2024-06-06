@@ -84,8 +84,7 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
     @staticmethod
     def slice(arr: Array, threshold: ConstType, axis: int = 0) -> Array:
         """For a 2darray with shape `realization` x -1 (here, `arr.T`),
-        _summary_
-
+        ```
         □□□□□...□□│□□□□□□□            □□□□□...□□ppppppp│
         □□□□□...□□│□□□□□□□            □□□□□...□□ppppppp│
         □□□□□...  └──┐                □□□□□...□□□□□pppp│
@@ -94,6 +93,8 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
         □□□□□...□□□□□│□□□□            □□□□□...□□□□□pppp│
         □□□□□...□□□□□│□□□□            □□□□□...□□□□□pppp│
                      └───> threshold                   └> padding
+        ```
+        _summary_
 
         Args:
             arr (Array): 2darray with shape -1 x `realization`.
