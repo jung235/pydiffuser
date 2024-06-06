@@ -6,6 +6,7 @@ from functools import partial
 from inspect import signature
 from typing import Any, Callable, Dict, Optional
 
+import jax
 import jax.numpy as jnp
 from numpy.random import rand, randint
 
@@ -27,6 +28,7 @@ class BaseDiffusion(abc.ABC):
         self.config: Optional[BaseDiffusionConfig] = None
         self._state_dict: Dict[str, Any] = {}
         self._interacting: bool = False
+        self._precision_x64: bool = False
 
     @classmethod
     def from_config(cls, config: BaseDiffusionConfig) -> BaseDiffusion:
@@ -48,6 +50,14 @@ class BaseDiffusion(abc.ABC):
     @interacting.setter
     def interacting(self, interacting: bool):
         self._interacting = interacting
+
+    @property
+    def precision_x64(self):
+        return self._precision_x64
+
+    @precision_x64.setter
+    def precision_x64(self, precision_x64: bool):
+        self._precision_x64 = precision_x64
 
     @abc.abstractmethod
     def generate(
@@ -73,6 +83,12 @@ class BaseDiffusion(abc.ABC):
             logger.debug(
                 f"Generating interacting particles from `{self.__class__.__name__}`. "
                 "The calculation will be significantly slower than with non-interacting particles."
+            )
+
+        jax.config.update("jax_enable_x64", self.precision_x64)
+        if self.precision_x64:
+            logger.debug(
+                f"The simulation launched from `{self.__class__.__name__}` requires x64 precision."
             )
         return
 
