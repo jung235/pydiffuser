@@ -88,7 +88,10 @@ class Ensemble(Component, OrderedDict):  # type: ignore[type-arg]
     def __setitem__(self, id: int, tracer: Trajectory) -> None:
         if not isinstance(tracer, Trajectory):
             raise ValueError("Only `Trajectory` can be an element of `Ensemble`")
+        if jnp.any(jnp.isnan(tracer.position)):
+            raise ValueError("`Trajectory` contains NaN values")
         assert tracer.dt == self.dt
+        
         if id >= self.N:
             if id > self.N:
                 logger.warning(
