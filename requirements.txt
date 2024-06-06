@@ -1,5 +1,5 @@
 # dev
-black==23.3.0
+black>=24.3.0
 ruff==0.0.285
 mypy==1.4.1
 pre-commit>=2.21.0
