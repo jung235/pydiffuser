@@ -10,6 +10,7 @@ def get_model_info():
         "aoup": _,
         "bm": _,
         "levy": _,
+        "mips": _,
         "rtp": _,
         "smoluchowski": "1d, 2d",
         "vicsek": "2d",

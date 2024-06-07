@@ -50,9 +50,11 @@ class OverdampedLangevin(BaseDiffusion):
     ):
         """
         Consider an overdamped Langevin equation in d dimensions:
+        ```
             dr     1         1      __
             ── = - ─ ∇U(r) + ─ F + √2D ξ(t) + p,
             dt     γ         γ
+        ```
         where γ is a friction coefficient,
         D is a translational diffusion coefficient,
         p is a user-defined stochastic variable (e.g., self-propulsion velocity),

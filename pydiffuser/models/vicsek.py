@@ -59,9 +59,11 @@ class VicsekModel(OverdampedLangevin):
         We consider the Vicsek model utilizing active Brownian particles (ABPs)
         in a square box of size L x L, subjected to a periodic boundary condition (PBC).
         The following equation governs the velocity direction φᵢ of the ith particle:
+        ```
             dφᵢ        K                    ___
             ─── = ω + ─── Σ sin(φⱼ - φᵢ) + √2Dr ηᵢ(t).
             dt        πR² j
+        ```
         Here, we ignore the excluded volume effect and external force term, which means
             U = 0 and F = 0 in `pydiffuser.models.core.sde.OverdampedLangevin`.
         For a detailed description of ABPs, see `pydiffuser.models.abp.ActiveBrownianParticle`.
@@ -147,11 +149,10 @@ class VicsekModel(OverdampedLangevin):
         )
         next_x = (x + dx) % self.boxsize  # PBC
 
-        abs_dx = jnp.abs(x[:, jnp.newaxis] - x[jnp.newaxis, :])
-        abs_dx = jnp.where(
-            abs_dx <= self.boxsize / 2, abs_dx, self.boxsize - abs_dx
-        )  # PBC
-        dr = jnp.sqrt(jnp.sum(abs_dx**2, axis=-1))
+        dx_vec = x[:, jnp.newaxis] - x[jnp.newaxis, :]
+        dx_vec = dx_vec - self.boxsize * jnp.round(dx_vec / self.boxsize)  # PBC
+        dr = jnp.linalg.norm(dx_vec, axis=-1)
+
         mask = jnp.where(dr <= self.interaction_radius, 1, 0)
         sine = jnp.sin(phi.T - phi)
         dphi_vicsek = coeff * jnp.sum(sine * mask, axis=-1) * dt
