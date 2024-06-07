@@ -149,11 +149,10 @@ class VicsekModel(OverdampedLangevin):
         )
         next_x = (x + dx) % self.boxsize  # PBC
 
-        abs_dx = jnp.abs(x[:, jnp.newaxis] - x[jnp.newaxis, :])
-        abs_dx = jnp.where(
-            abs_dx <= self.boxsize / 2, abs_dx, self.boxsize - abs_dx
-        )  # PBC
-        dr = jnp.sqrt(jnp.sum(abs_dx**2, axis=-1))
+        dx_vec = x[:, jnp.newaxis] - x[jnp.newaxis, :]
+        dx_vec = dx_vec - self.boxsize * jnp.round(dx_vec / self.boxsize)  # PBC
+        dr = jnp.linalg.norm(dx_vec, axis=-1)
+
         mask = jnp.where(dr <= self.interaction_radius, 1, 0)
         sine = jnp.sin(phi.T - phi)
         dphi_vicsek = coeff * jnp.sum(sine * mask, axis=-1) * dt
