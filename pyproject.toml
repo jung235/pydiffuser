@@ -65,6 +65,10 @@ disallow_incomplete_defs = false
 module = "pydiffuser._cli.cli"
 ignore_errors = true
 
+[[tool.mypy.overrides]]
+module = "pydiffuser.models.mips"
+ignore_errors = true
+
 [tool.ruff]
 select = [
     "E",  # pycodestyle

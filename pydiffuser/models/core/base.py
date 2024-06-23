@@ -85,6 +85,7 @@ class BaseDiffusion(abc.ABC):
                 "The calculation will be significantly slower than with non-interacting particles."
             )
 
+        jax.config.update("jax_platform_name", "cpu")  # TODO
         jax.config.update("jax_enable_x64", self.precision_x64)
         if self.precision_x64:
             logger.debug(
