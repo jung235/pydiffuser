@@ -22,11 +22,13 @@ def test_models(config_dict, model_dict, name):
     config = config_dict[name]()
     model = model_dict[name].from_config(config=config)  # instantiation from config
     ens = model.generate()
-    assert ens.microstate.shape == (config.realization, config.length, config.dimension)
+    shape = (config.realization, config.length, config.dimension)
+    assert ens.microstate.shape == shape
 
     ens = model.generate(realization=5, length=50, dimension=2)
     with pytest.raises(AssertionError):
         assert ens.microstate.shape == (5, 50, 2)
+    assert ens.microstate.shape == shape
 
     kwargs = config_dict[name].show_fields()
     params = list(signature(model_dict[name].__init__).parameters.keys())

@@ -35,6 +35,8 @@ class BaseDiffusionConfig(abc.ABC):
 
     @classmethod
     def show_fields(cls) -> Dict[str, Any]:
+        """Show the variables of the class constructor."""
+
         return copy.deepcopy(vars(cls()))
 
     @classmethod
@@ -54,6 +56,8 @@ class BaseDiffusionConfig(abc.ABC):
         return obj(**info)
 
     def to_dict(self) -> Dict[str, Any]:
+        """Show the variables of the instance of the class."""
+
         info = copy.deepcopy(vars(self))
         return info
 
@@ -62,3 +66,6 @@ class BaseDiffusionConfig(abc.ABC):
 
     def __contains__(self, param: str) -> bool:
         return param in self.to_dict()
+
+    def __eq__(self, config: object) -> bool:
+        return self.to_dict() == config.to_dict()  # type: ignore
