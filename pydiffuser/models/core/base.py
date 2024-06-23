@@ -86,6 +86,7 @@ class BaseDiffusion(abc.ABC):
             )
 
         jax.config.update("jax_platform_name", "cpu")  # TODO
+        jax.config.update("jax_traceback_filtering", "off")
         jax.config.update("jax_enable_x64", self.precision_x64)
         if self.precision_x64:
             logger.debug(
