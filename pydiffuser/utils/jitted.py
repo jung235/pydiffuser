@@ -46,16 +46,15 @@ def get_noise(
     try:
         noise = generator(size=size)  # type: ignore[call-arg]
     except Exception as exc:
-        if isinstance(exc, TypeError):
-            module = inspect.getmodule(generator)
-            if module is None:
-                noise = generator(size)
-            elif "jax" in module.__name__:
-                raise NotImplementedError(
-                    "Random number generator via JAX is unsupported"
-                ) from exc
+        if "rand" in generator.__name__:
+            noise = generator(size)
+        elif "jax" in inspect.getmodule(generator).__name__:  # type: ignore[union-attr]
+            raise NotImplementedError(
+                "Random number generator via JAX is unsupported"
+            ) from exc
         else:
             raise RuntimeError(f"{exc}") from exc
+
     noise = jnp.array(noise)
     if shape is not None:
         noise = noise.reshape(shape)
