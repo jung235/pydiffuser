@@ -1,7 +1,9 @@
-import inspect
+import os
+import time
 from functools import partial
-from typing import Any, Callable, Optional, Tuple
+from typing import Any, Callable, Tuple
 
+import jax
 import jax.numpy as jnp
 from jax import Array, jit
 from jax.numpy import linalg as jLA
@@ -41,21 +43,26 @@ def spherical_to_cartesian(
 def get_noise(
     generator: Callable[[int], Any],
     size: int,
-    shape: Optional[Tuple[int, ...]] = None,
+    shape: Tuple[int, ...] | None = None,
 ) -> Array:
     try:
-        noise = generator(size=size)  # type: ignore[call-arg]
+        noise = jnp.array(generator(size=size))  # type: ignore[call-arg]
+
     except Exception as exc:
-        if "rand" in generator.__name__:
-            noise = generator(size)
-        elif "jax" in inspect.getmodule(generator).__name__:  # type: ignore[union-attr]
-            raise NotImplementedError(
-                "Random number generator via JAX is unsupported"
-            ) from exc
+        if (hasattr(generator, "__name__") and "rand" in generator.__name__) or (
+            isinstance(generator, partial) and "rand" in generator.func.__name__
+        ):
+            noise = jnp.array(generator(size))
+
+        elif (hasattr(generator, "__module__") and "jax" in generator.__module__) or (
+            isinstance(generator, partial) and "jax" in generator.func.__module__
+        ):
+            seed = int(time.time()) + os.getpid()
+            key = jax.random.PRNGKey(seed)
+            noise = generator(key, shape=(size,))  # type: ignore[call-arg]
+
         else:
             raise RuntimeError(f"{exc}") from exc
-
-    noise = jnp.array(noise)
     if shape is not None:
         noise = noise.reshape(shape)
     return noise

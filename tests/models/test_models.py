@@ -8,14 +8,14 @@ from pydiffuser.models.core.base import MODEL_KWARGS
 @pytest.mark.parametrize(
     "name",
     [
-        ("abp"),
-        ("aoup"),
-        ("bm"),
-        ("levy"),
-        ("mips"),
-        ("rtp"),
-        ("smoluchowski"),
-        ("vicsek"),
+        "abp",
+        "aoup",
+        "bm",
+        "levy",
+        "mips",
+        "rtp",
+        "smoluchowski",
+        "vicsek",
     ],
 )
 def test_models(config_dict, model_dict, name):
