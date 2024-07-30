@@ -1,7 +1,8 @@
 from functools import partial
-from typing import Dict
+from typing import Any, Callable, Dict, Tuple
 
 import jax.numpy as jnp
+import numpy as np
 from jax import Array
 from numpy.random import rand, randint
 
@@ -24,6 +25,7 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
 
     def __init__(self) -> None:
         super(ContinuousTimeRandomWalk, self).__init__()
+        self.precision_x64 = True
 
     @property
     def one_step(self) -> ConstType:
@@ -48,6 +50,17 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
 
     def get_interarrival_times(self) -> Dict[int, Array]:
         raise NotImplementedError
+
+    def _get_interarrival_times_per_tracer(
+        self, generator: Callable[[int], Any], key: Array
+    ) -> Tuple[Array, Array]:
+        _, length, _, dt = list(self.generate_info.values())[:4]
+
+        tau = jitted.get_noise(generator=partial(generator, key=key), size=length)
+        # make it countable, and use `int64` to prevent overflow
+        tau = jnp.array(jnp.round(tau, -int(np.log10(dt))) / dt, dtype=jnp.int64)
+        cutoff = jnp.argmax(jnp.cumsum(tau) >= length)
+        return tau, cutoff
 
     def _get_microstate_from_orientation(self, u: Array) -> LongLongPosType:
         x = self._get_initial_position()
@@ -104,6 +117,18 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
         u *= 2 * jnp.pi if dim == 2 else jnp.pi
         u = u.at[:, :, -1].multiply(2) if dim == 3 else u
         return u
+
+    @staticmethod
+    def repeat(
+        arr: Array, repeats_info: Dict[int, Array], cutoff: ConstType | None = None
+    ) -> Array:
+        arrs = []
+        for id, ti in repeats_info.items():
+            arrs.append(jnp.repeat(arr[id, : len(ti)], repeats=ti, axis=0))
+        arr = jnp.stack(arrs, axis=0)
+        if cutoff:
+            arr = arr[:, :cutoff]  # realization x cutoff x -1
+        return arr
 
     @staticmethod
     def slice(arr: Array, threshold: ConstType, axis: int = 0) -> Array:
