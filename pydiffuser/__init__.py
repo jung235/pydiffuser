@@ -18,7 +18,7 @@ from .models import (
     VicsekModelConfig,
 )
 from .tracer import Ensemble, Trajectory
-from .utils import load, save
+from .utils import load, random, save
 
 __all__ = [
     "__version__",
@@ -41,5 +41,6 @@ __all__ = [
     "Ensemble",
     "Trajectory",
     "load",
+    "random",
     "save",
 ]

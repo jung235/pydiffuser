@@ -1,12 +1,10 @@
-import os
-import time
 from functools import partial
 from typing import Any, Callable, Tuple
 
-import jax
 import jax.numpy as jnp
 from jax import Array, jit
 from jax.numpy import linalg as jLA
+from jaxlib.xla_extension import PjitFunction
 
 from pydiffuser.typing import ArrayType, ConstType
 
@@ -54,12 +52,15 @@ def get_noise(
         ):
             noise = jnp.array(generator(size))
 
-        elif (hasattr(generator, "__module__") and "jax" in generator.__module__) or (
-            isinstance(generator, partial) and "jax" in generator.func.__module__
+        elif (
+            (hasattr(generator, "__module__") and "jax" in generator.__module__)
+            or (isinstance(generator, partial) and "jax" in generator.func.__module__)
+            or (
+                isinstance(generator, partial)
+                and isinstance(generator.func, PjitFunction)
+            )
         ):
-            seed = int(time.time()) + os.getpid()
-            key = jax.random.PRNGKey(seed)
-            noise = generator(key, shape=(size,))  # type: ignore[call-arg]
+            noise = generator(shape=(size,))  # type: ignore[call-arg]
 
         else:
             raise RuntimeError(f"{exc}") from exc
