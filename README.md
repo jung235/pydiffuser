@@ -3,7 +3,7 @@
     <h1 align="center">Pydiffuser</h1>
 </p>
 
-[![pypi](https://img.shields.io/badge/pypi-v0.0.2-blue)](https://pypi.org/project/pydiffuser/)
+[![pypi](https://img.shields.io/badge/pypi-v0.0.3-blue)](https://pypi.org/project/pydiffuser/)
 [![python](https://img.shields.io/badge/python-3.10_|_3.11_|_3.12-blue)](https://pypi.org/project/pydiffuser/)
 [![doi](https://zenodo.org/badge/703392021.svg)](https://zenodo.org/doi/10.5281/zenodo.10017027)
 [![codecov](https://codecov.io/gh/jung235/pydiffuser/graph/badge.svg?token=UAT5VEBK0O)](https://codecov.io/gh/jung235/pydiffuser)
@@ -81,8 +81,10 @@ abp             ActiveBrownianParticle          ActiveBrownianParticleConfig    
 aoup            ActiveOUParticle                ActiveOUParticleConfig          1d, 2d, 3d      
 bm              BrownianMotion                  BrownianMotionConfig            1d, 2d, 3d      
 levy            LevyWalk                        LevyWalkConfig                  1d, 2d, 3d      
+mips            PhaseSeparation                 PhaseSeparationConfig           1d, 2d, 3d      
 rtp             RunAndTumbleParticle            RunAndTumbleParticleConfig      1d, 2d, 3d      
 smoluchowski    SmoluchowskiEquation            SmoluchowskiEquationConfig      1d, 2d          
+vicsek          VicsekModel                     VicsekModelConfig               2d              
 ```
 
 ## Features
