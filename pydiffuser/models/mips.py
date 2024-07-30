@@ -131,8 +131,6 @@ class PhaseSeparation(ActiveOUParticle):
         x = jnp.concatenate((x, jnp.transpose(stx, (1, 0, 2))), axis=1)
 
         ens.update_microstate(microstate=x)
-        for id in range(realization):
-            ens[id].update_meta_dict(item={"diameter": sigma[id]})
         ens.update_meta_dict(item={"diameter": sigma})
         return ens
 

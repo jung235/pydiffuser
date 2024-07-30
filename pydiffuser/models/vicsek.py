@@ -128,8 +128,6 @@ class VicsekModel(OverdampedLangevin):
         x = jnp.concatenate((x, jnp.transpose(stx_x, (1, 0, 2))), axis=1)
 
         ens.update_microstate(microstate=x)
-        for id in range(realization):
-            ens[id].update_meta_dict(item={"direction": phi[id]})
         ens.update_meta_dict(item={"direction": phi})
         return ens
 
