@@ -1,10 +1,9 @@
 import jax.numpy as jnp
 from scipy.stats import norm
 
-from pydiffuser.logger import logger
 from pydiffuser.models.core import BaseDiffusion
 from pydiffuser.tracer import Ensemble, Trajectory
-from pydiffuser.utils import BaseDiffusionConfig, jitted
+from pydiffuser.utils import BaseDiffusionConfig, helpers, jitted
 
 
 class BrownianMotionConfig(BaseDiffusionConfig):
@@ -49,14 +48,10 @@ class BrownianMotion(BaseDiffusion):
         ens.update_microstate(microstate=x)
         return ens
 
+    @helpers.deprecated
     def create(
         self, realization: int, length: int, dimension: int, dt: float
     ) -> Ensemble:
-        logger.warning(
-            "The method `create` is deprecated. "
-            "Please use `generate` instead, which utilizes batch calculation.",
-            stacklevel=2,
-        )
         import numpy as np
 
         ens = Ensemble(dt=dt)

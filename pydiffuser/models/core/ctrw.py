@@ -1,4 +1,5 @@
 from functools import partial
+from typing import Dict
 
 import jax.numpy as jnp
 from jax import Array
@@ -7,8 +8,8 @@ from numpy.random import rand, randint
 from pydiffuser.exceptions import MemoryAllocationError, ShapeMismatchError
 from pydiffuser.models.core import BaseDiffusion
 from pydiffuser.tracer import Ensemble
-from pydiffuser.typing import ConstType
-from pydiffuser.utils import BaseDiffusionConfig, jitted
+from pydiffuser.typing import ConstType, LongLongPosType
+from pydiffuser.utils import BaseDiffusionConfig, helpers, jitted
 
 
 class ContinuousTimeRandomWalkConfig(BaseDiffusionConfig):
@@ -41,21 +42,19 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
         ens = super().generate(realization, length, dimension, dt, **generate_kwargs)
         realization, length, dimension, _ = list(self.generate_info.values())[:4]
 
-        t = self.get_time_steps()
-        if t.shape[0] != realization or t.ndim != 2:
-            raise ShapeMismatchError("(`realization`, -1) is required")
+        interarrival: Dict[int, Array] = self.get_interarrival_times()
+        ens.update_meta_dict(item={"interarrival": interarrival})
+        return ens
 
-        u = self.get_orientation_steps(realization, capacity=t.shape[1])
-        u = jnp.stack(
-            arrays=[jnp.repeat(_u, _t, axis=0) for _u, _t in zip(u, t, strict=True)],
-            axis=0,
-        )
-        u = u[:, : length - 1]  # realization x (length - 1) x -1
+    def get_interarrival_times(self) -> Dict[int, Array]:
+        raise NotImplementedError
 
+    def _get_microstate_from_orientation(self, u: Array) -> LongLongPosType:
         x = self._get_initial_position()
-        if dimension == 1:
+        dim = x.shape[-1]
+        if dim == 1:
             dx = self.one_step * jnp.cos(u)
-        elif dimension == 2:
+        elif dim == 2:
             dx = jnp.concatenate(jitted.polar_to_cartesian(self.one_step, u), axis=2)
         else:
             dx = jnp.concatenate(
@@ -64,6 +63,31 @@ class ContinuousTimeRandomWalk(BaseDiffusion):
             )
         x = jnp.concatenate((x, dx), axis=1)
         x = jnp.cumsum(x, axis=1)
+        return x
+
+    @helpers.deprecated
+    def create(
+        self,
+        realization: int = 10,
+        length: int = 1000,
+        dimension: int = 2,
+        dt: float = 1.0,
+        **generate_kwargs,
+    ) -> Ensemble:
+        ens = super().generate(realization, length, dimension, dt, **generate_kwargs)
+        realization, length, dimension, _ = list(self.generate_info.values())[:4]
+
+        t = self.get_time_steps()
+        if t.shape[0] != realization or t.ndim != 2:
+            raise ShapeMismatchError("(`realization`, -1) is required")
+
+        u = self.get_orientation_steps(realization, capacity=t.shape[1])
+        u = jnp.stack(
+            arrays=[jnp.repeat(ui, ti, axis=0) for ui, ti in zip(u, t, strict=True)],
+            axis=0,
+        )
+        u = u[:, : length - 1]  # realization x (length - 1) x -1
+        x = self._get_microstate_from_orientation(u)
         ens.update_microstate(microstate=x)
         return ens
 
