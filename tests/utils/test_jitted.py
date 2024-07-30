@@ -3,9 +3,11 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 import pytest
+from jax.random import PRNGKey
 from numpy.random import rand, randint, uniform
 from scipy.stats import expon, norm, pareto
 
+import pydiffuser as pyd
 from pydiffuser.utils.jitted import get_noise, normalize
 
 
@@ -31,10 +33,11 @@ def test_normalize():
         partial(expon.rvs, scale=10),
         norm.rvs,
         partial(pareto.rvs, b=1.5),
-        jax.random.uniform,
-        jax.random.exponential,
-        jax.random.normal,
-        partial(jax.random.pareto, b=1.5),
+        partial(jax.random.uniform, key=PRNGKey(42)),
+        partial(jax.random.normal, key=PRNGKey(42)),
+        partial(jax.random.pareto, key=PRNGKey(42), b=1.5),
+        partial(jax.random.exponential, key=PRNGKey(42)),
+        partial(pyd.random.exponential, key=PRNGKey(42), scale=10),
     ],
 )
 def test_get_noise(generator):

@@ -1,4 +1,5 @@
 import functools
+import warnings
 from dataclasses import dataclass
 from typing import Callable, Optional
 
@@ -54,3 +55,16 @@ def checktime(nonzero: bool = False) -> Callable[[Callable[P, T]], Callable[P, T
         return wrapper
 
     return decorator
+
+
+def deprecated(fn: Callable[P, T]) -> Callable[P, T]:
+    @functools.wraps(fn)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+        warnings.warn(
+            f"The callable `{fn.__name__}` in `{fn.__module__}` is deprecated.",
+            category=DeprecationWarning,
+            stacklevel=2,
+        )
+        return fn(*args, **kwargs)
+
+    return wrapper
